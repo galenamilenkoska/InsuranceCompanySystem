@@ -50,6 +50,6 @@ public class PolicyController {
         model.addAttribute("pageSize", pageSize);
 
         // Call the view named "policy-view" and pass the model to it
-        return "policy-view";
+        return "all_policies";
     }
 }
