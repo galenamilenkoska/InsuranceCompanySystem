@@ -1,0 +1,35 @@
+# Compiled class files
+*.class
+
+# Log files
+log/
+*.log
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+
+# Maven build directory
+target/
+
+# Generated files
+gen/
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# IDE-specific files
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Mac OS files
+.DS_Store
