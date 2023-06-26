@@ -25,6 +25,11 @@
 
 <div class="container mt-4">
     <h1>All Damages</h1>
+    <div>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Create Damage</a>
+        </li>
+    </div>
     <div style="overflow: auto">
         <table class="table">
             <thead>
@@ -43,6 +48,19 @@
             </thead>
             <tbody>
             <tr th:each="damage : ${viewData}">
+                <td>
+                    <a class="nav-link" th:href="@{/damages/update(damageId=${damage['id']},
+                        claimId=${damage['claimId']},
+                        description=${damage['description']},
+                        damageType=${damage['damage_type']},
+                        dateOfPayment=${damage['date_of_payment']},
+                        statusOfPayment=${damage['status_of_payment']},
+                        receivedPayment=${damage['received_payment']},
+                        receivedFrom=${damage['received_from']},
+                        paidToCustomer=${damage['paid_to_customer']})}">
+                        <button type="button" class="btn btn-outline-info">Edit</button>
+                    </a>
+                </td>
                 <td th:text="${damage['id']}"></td>
                 <td th:text="${damage['claimid']}"></td>
                 <td th:text="${damage['description']}"></td>
@@ -52,9 +70,6 @@
                 <td th:text="${damage['received_payment']}"></td>
                 <td th:text="${damage['received_from']}"></td>
                 <td th:text="${damage['paid_to_customer']}"></td>
-                <td>
-                    <a th:href="@{/damages/{id}(id=${damage['id']})}">View Details</a>
-                </td>
             </tr>
             </tbody>
         </table>
