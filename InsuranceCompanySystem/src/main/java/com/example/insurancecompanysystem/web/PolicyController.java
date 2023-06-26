@@ -69,6 +69,9 @@ public class PolicyController {
         return "create-policy"; // Replace with the actual name of your HTML form view
     }
 
+
+    //treba tuka i policyPrice i policyAtributes da kreirame pred da se kreira polisa i vajda da stavime dropdown za da moze
+    //userot da odbere agent, manager i customer?
     @PostMapping("/create-policy")
     public String createPolicy(@RequestParam("managerId") int managerId,
                                @RequestParam("agentId") int agentId,
@@ -94,7 +97,7 @@ public class PolicyController {
                         cs.setDate(3, Date.valueOf(parsedStartDate));
                         cs.setDate(4, Date.valueOf(parsedEndDate));
                         cs.setInt(5, policyPriceId);
-                        cs.setInt(6, policyStatusId);
+                        cs.setInt(6, 1);
                         cs.setInt(7, policyHolderId);
                         cs.setInt(8, policyPaymentId);
                         cs.setInt(9, insuranceTypeId);
