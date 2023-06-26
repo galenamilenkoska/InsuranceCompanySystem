@@ -24,6 +24,11 @@
 
 <div class="container mt-4">
     <h1>All Claims</h1>
+
+    <a class="nav-link" href="/create-claim-get">
+        <button type="button" class="btn btn-success">Create</button>
+    </a>
+
     <div style="overflow: auto">
         <table class="table">
             <thead>
@@ -63,15 +68,21 @@
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/claims(page=${currentPage - 1}, pageSize=${pageSize})}">Previous</a>
+                <a class="page-link" th:href="@{claims(page=0, pageSize=${pageSize})}">First</a>
             </li>
-            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, (viewData.size() / pageSize) - 1)}" th:class="${pageNumber == currentPage ? 'active' : ''}">
-                <a class="page-link" th:href="@{/claims(page=${pageNumber}, pageSize=${pageSize})}">
-                    <span th:text="${pageNumber + 1}"></span>
+            <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{claims(page=${currentPage - 1}, pageSize=${pageSize})}">Previous</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/claims(page=${currentPage}, pageSize=${pageSize})}">
+                    <span th:text="${currentPage + 1}"></span>
                 </a>
             </li>
-            <li class="page-item" th:class="${currentPage >= (viewData.size() / pageSize) - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{/claims(page=${currentPage + 1}, pageSize=${pageSize})}">Next</a>
+            <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{claims(page=${currentPage + 1}, pageSize=${pageSize})}">Next</a>
+            </li>
+            <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{claims(page=${totalPages - 1}, pageSize=${pageSize})}">Last</a>
             </li>
         </ul>
     </nav>
