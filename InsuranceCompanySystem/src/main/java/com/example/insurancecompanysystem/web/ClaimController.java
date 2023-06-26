@@ -28,7 +28,7 @@ public class ClaimController {
         int offset = page * pageSize;
 
         // Execute a SQL query with pagination
-        String sql = "SELECT * FROM all_claims OFFSET ? LIMIT ?";
+        String sql = "SELECT * FROM all_claims order by id OFFSET ? LIMIT ?";
         List<Map<String, Object>> viewData = jdbcTemplate.queryForList(sql, offset, pageSize);
 
         // Add the view data and pagination information to the model

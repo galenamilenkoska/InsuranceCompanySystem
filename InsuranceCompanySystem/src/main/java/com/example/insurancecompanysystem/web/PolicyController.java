@@ -42,6 +42,27 @@ public class PolicyController {
 //    }
 
 
+//    @GetMapping("/policies")
+//    public String getPolicy(@RequestParam(defaultValue = "0") int page,
+//                            @RequestParam(defaultValue = "10") int pageSize,
+//                            Model model) {
+//        // Calculate the offset based on the page number and page size
+//        int offset = page * pageSize;
+//
+//        // Execute a SQL query with pagination
+//        String sql = "SELECT * FROM all_policies OFFSET ? LIMIT ?";
+//        List<Map<String, Object>> viewData = jdbcTemplate.queryForList(sql, offset, pageSize);
+//
+//        // Add the view data and pagination information to the model
+//        model.addAttribute("viewData", viewData);
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("pageSize", pageSize);
+//
+//        // Call the view named "policy-view" and pass the model to it
+//        return "all_policies";
+//    }
+
+
     @GetMapping("/policies")
     public String getPolicy(@RequestParam(defaultValue = "0") int page,
                             @RequestParam(defaultValue = "10") int pageSize,
@@ -50,7 +71,7 @@ public class PolicyController {
         int offset = page * pageSize;
 
         // Execute a SQL query with pagination
-        String sql = "SELECT * FROM all_policies OFFSET ? LIMIT ?";
+        String sql = "SELECT * FROM all_policies order by id OFFSET ? LIMIT ?";
         List<Map<String, Object>> viewData = jdbcTemplate.queryForList(sql, offset, pageSize);
 
         // Add the view data and pagination information to the model
@@ -58,10 +79,18 @@ public class PolicyController {
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", pageSize);
 
+        // Calculate the total number of policies
+        int totalPolicies = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM all_policies", Integer.class);
+
+        // Calculate the total number of pages
+        int totalPages = (int) Math.ceil((double) totalPolicies / pageSize);
+
+        // Add the total number of pages to the model
+        model.addAttribute("totalPages", totalPages);
+
         // Call the view named "policy-view" and pass the model to it
         return "all_policies";
     }
-
 
     @GetMapping("/create-policy")
     public String showCreatePolicyForm(Model model) {
