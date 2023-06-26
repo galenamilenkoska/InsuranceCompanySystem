@@ -71,32 +71,54 @@ public class PolicyController {
         return "all_policies";
     }
 
+
+
     @GetMapping("/create-policy")
     public String showCreatePolicyForm(Model model) {
-        return "create-policy";
+        return "create-policy-full";
     }
 
 
-    //treba tuka i policyPrice i policyAtributes da kreirame pred da se kreira polisa i vajda da stavime dropdown za da moze
-    //userot da odbere agent, manager i customer?
-    @PostMapping("/create-policy")
-    public String createPolicy(@RequestParam("managerId") int managerId,
-                               @RequestParam("agentId") int agentId,
-                               @RequestParam("startDate") String startDate,
-                               @RequestParam("endDate") String endDate,
-                               @RequestParam("policyPriceId") int policyPriceId,
-                               @RequestParam("policyStatusId") int policyStatusId,
-                               @RequestParam("policyHolderId") int policyHolderId,
-                               @RequestParam("policyPaymentId") int policyPaymentId,
-                               @RequestParam("insuranceTypeId") int insuranceTypeId,
-                               @RequestParam("subTypeId") int subTypeId,
-                               @RequestParam("policyAttributesId") int policyAttributesId, Model model) {
 
+    @PostMapping("/create-policy")
+    public String createPolicy(
+            @RequestParam("managerId") int managerId,
+            @RequestParam("agentId") int agentId,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("policyPriceId") int policyPriceId,
+            @RequestParam("policyStatusId") int policyStatusId,
+            @RequestParam("policyHolderId") int policyHolderId,
+            @RequestParam("policyPaymentId") int policyPaymentId,
+            @RequestParam("insuranceTypeId") int insuranceTypeId,
+            @RequestParam("subTypeId") int subTypeId,
+            @RequestParam("registrationNo") String registrationNo,
+            @RequestParam("chasisNo") String chasisNo,
+            @RequestParam("description") String description,
+            @RequestParam("levelOfJobRisk") String levelOfJobRisk,
+            @RequestParam("propertyArea") String propertyArea,
+            Model model
+    ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
         LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
 
         try {
+            jdbcTemplate.execute("CALL createpolicyattributes(?, ?, ?, ?, ?)",
+                    (CallableStatementCallback<Object>) cs -> {
+                        cs.setString(1, registrationNo);
+                        cs.setString(2, chasisNo);
+                        cs.setString(3, description);
+                        cs.setString(4, levelOfJobRisk);
+                        cs.setString(5, propertyArea);
+                        cs.execute();
+
+                        return null;
+                    });
+
+            // Retrieve the maximum ID from policyattributes table
+            int policyAttributesId = jdbcTemplate.queryForObject("SELECT MAX(id) FROM policyatributes", Integer.class);
+
             jdbcTemplate.execute("CALL createpolicy(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     (CallableStatementCallback<Object>) cs -> {
                         cs.setInt(1, managerId);
@@ -104,13 +126,14 @@ public class PolicyController {
                         cs.setDate(3, Date.valueOf(parsedStartDate));
                         cs.setDate(4, Date.valueOf(parsedEndDate));
                         cs.setInt(5, policyPriceId);
-                        cs.setInt(6, 1);
+                        cs.setInt(6, policyStatusId);
                         cs.setInt(7, policyHolderId);
                         cs.setInt(8, policyPaymentId);
                         cs.setInt(9, insuranceTypeId);
                         cs.setInt(10, subTypeId);
                         cs.setInt(11, policyAttributesId);
                         cs.execute();
+
                         return null;
                     });
         } catch (Exception e) {
@@ -122,7 +145,6 @@ public class PolicyController {
 
         return "redirect:/policies";
     }
-
 
     @GetMapping("/update-policy")
     public String showUpdatePolicyForm(@RequestParam("policyId") int index,
@@ -233,5 +255,55 @@ public class PolicyController {
 //        }
 //    }
 
+    //    @GetMapping("/create-policy")
+//    public String showCreatePolicyForm(Model model) {
+//        return "create-policy";
+//    }
+
+    //treba tuka i policyPrice i policyAtributes da kreirame pred da se kreira polisa i vajda da stavime dropdown za da moze
+    //userot da odbere agent, manager i customer?
+//    @PostMapping("/create-policy")
+//    public String createPolicy(@RequestParam("managerId") int managerId,
+//                               @RequestParam("agentId") int agentId,
+//                               @RequestParam("startDate") String startDate,
+//                               @RequestParam("endDate") String endDate,
+//                               @RequestParam("policyPriceId") int policyPriceId,
+//                               @RequestParam("policyStatusId") int policyStatusId,
+//                               @RequestParam("policyHolderId") int policyHolderId,
+//                               @RequestParam("policyPaymentId") int policyPaymentId,
+//                               @RequestParam("insuranceTypeId") int insuranceTypeId,
+//                               @RequestParam("subTypeId") int subTypeId,
+//                               @RequestParam("policyAttributesId") int policyAttributesId, Model model) {
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
+//        LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
+//
+//        try {
+//            jdbcTemplate.execute("CALL createpolicy(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+//                    (CallableStatementCallback<Object>) cs -> {
+//                        cs.setInt(1, managerId);
+//                        cs.setInt(2, agentId);
+//                        cs.setDate(3, Date.valueOf(parsedStartDate));
+//                        cs.setDate(4, Date.valueOf(parsedEndDate));
+//                        cs.setInt(5, policyPriceId);
+//                        cs.setInt(6, 1);
+//                        cs.setInt(7, policyHolderId);
+//                        cs.setInt(8, policyPaymentId);
+//                        cs.setInt(9, insuranceTypeId);
+//                        cs.setInt(10, subTypeId);
+//                        cs.setInt(11, policyAttributesId);
+//                        cs.execute();
+//                        return null;
+//                    });
+//        } catch (Exception e) {
+//            // Handle exception and display appropriate error message
+//            String errorMessage = e.getMessage();
+//            model.addAttribute("errorMessage", errorMessage);
+//            return "error-page";
+//        }
+//
+//        return "redirect:/policies";
+//    }
 
 }
