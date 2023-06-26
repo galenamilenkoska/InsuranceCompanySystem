@@ -27,10 +27,6 @@ public class ClaimController {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @GetMapping("/")
-    public String defaultRedirect() {
-        return "redirect:/claims";
-    }
     @GetMapping
     public String getClaims(@RequestParam(defaultValue = "0") int page,
                             @RequestParam(defaultValue = "10") int pageSize,

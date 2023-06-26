@@ -7,7 +7,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">My Insurance Company</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -28,6 +29,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th></th>
                 <th>ID</th>
                 <th>Manager ID</th>
                 <th>Manager Approval First Name</th>
@@ -57,6 +59,22 @@
             <tbody>
             <!-- Use Thymeleaf to dynamically render table rows -->
             <tr th:each="policy : ${viewData}">
+                <td>
+                    <a class="nav-link" th:href="@{/update-policy(policyId=${policy['id']},
+                        managerId=${policy['manager_id']},
+                        agentId=${policy['agentid']},
+                        startDate=${policy['start_date']},
+                        endDate=${policy['end_date']},
+                        policyPriceId=${policy['policypriceid']},
+                        policyStatusId=${policy['statusid']},
+                        policyHolderId=${policy['policyholderid']},
+                        policyPaymentId=${policy['policypaymentid']},
+                        insuranceTypeId=${policy['insurance_type_id']},
+                        subTypeId=${policy['sub_type_id']},
+                        policyAttributesId=${policy['policyattributesid']})}">
+                        <button type="button" class="btn btn-outline-info">Edit</button>
+                    </a>
+                </td>
                 <td th:text="${policy['id']}"></td>
                 <td th:text="${policy['manager_id']}"></td>
                 <td th:text="${policy['managerapprovalfirstname']}"></td>
@@ -96,9 +114,10 @@
                 <a class="page-link" th:href="@{policies(page=${currentPage - 1}, pageSize=${pageSize})}">Previous</a>
             </li>
             <li class="page-item" th:class="${pageNumber == currentPage ? 'active' : ''}">
-                <a class="page-link" th:href="@{/claims(page=${pageNumber}, pageSize=${pageSize})}">
+                <a class="page-link" th:href="@{/policies(page=${pageNumber}, pageSize=${pageSize})}">
                     <span th:text="${currentPage + 1}"></span>
                 </a>
+
             </li>
             <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
                 <a class="page-link" th:href="@{policies(page=${currentPage + 1}, pageSize=${pageSize})}">Next</a>

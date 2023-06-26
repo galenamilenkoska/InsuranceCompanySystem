@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Policy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">My Insurance Company</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/policies">Create Policy</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/policies">View All Policies</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h2>Edit Policy</h2>
+
+  <form action="/update-policy" method="post">
+    <div class="mb-3">
+      <label for="policyId" class="form-label">Policy ID:</label>
+      <input type="text" class="form-control" id="policyId" name="policyId" th:value="${policyId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="managerId" class="form-label">Manager ID:</label>
+      <input type="text" class="form-control" id="managerId" name="managerId" th:value="${managerId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="agentId" class="form-label">Agent ID:</label>
+      <input type="text" class="form-control" id="agentId" name="agentId" th:value="${agentId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="startDate" class="form-label">Start Date:</label>
+      <input type="date" class="form-control" id="startDate" name="startDate" th:value="${startDate}" required>
+    </div>
+    <div class="mb-3">
+      <label for="endDate" class="form-label">End Date:</label>
+      <input type="date" class="form-control" id="endDate" name="endDate" th:value="${endDate}" required>
+    </div>
+    <div class="mb-3">
+      <label for="policyPriceId" class="form-label">Policy Price ID:</label>
+      <input type="text" class="form-control" id="policyPriceId" name="policyPriceId" th:value="${policyPriceId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="policyStatusId" class="form-label">Policy Status ID:</label>
+      <input type="text" class="form-control" id="policyStatusId" name="policyStatusId" th:value="${policyStatusId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="policyHolderId" class="form-label">Policy Holder ID:</label>
+      <input type="text" class="form-control" id="policyHolderId" name="policyHolderId" th:value="${policyHolderId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="policyPaymentId" class="form-label">Policy Payment ID:</label>
+      <input type="text" class="form-control" id="policyPaymentId" name="policyPaymentId" th:value="${policyPaymentId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="insuranceTypeId" class="form-label">Insurance Type ID:</label>
+      <input type="text" class="form-control" id="insuranceTypeId" name="insuranceTypeId" th:value="${insuranceTypeId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="subTypeId" class="form-label">Sub Type ID:</label>
+      <input type="text" class="form-control" id="subTypeId" name="subTypeId" th:value="${subTypeId}" required>
+    </div>
+    <div class="mb-3">
+      <label for="policyAttributesId" class="form-label">Policy Attributes ID:</label>
+      <input type="text" class="form-control" id="policyAttributesId" name="policyAttributesId" th:value="${policyAttributesId}" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Policy</button>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

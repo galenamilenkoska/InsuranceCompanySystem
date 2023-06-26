@@ -1,9 +1,6 @@
 package com.example.insurancecompanysystem.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -17,7 +14,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class PolicyController {
@@ -41,27 +37,10 @@ public class PolicyController {
 //        return "policy-view";
 //    }
 
-
-//    @GetMapping("/policies")
-//    public String getPolicy(@RequestParam(defaultValue = "0") int page,
-//                            @RequestParam(defaultValue = "10") int pageSize,
-//                            Model model) {
-//        // Calculate the offset based on the page number and page size
-//        int offset = page * pageSize;
-//
-//        // Execute a SQL query with pagination
-//        String sql = "SELECT * FROM all_policies OFFSET ? LIMIT ?";
-//        List<Map<String, Object>> viewData = jdbcTemplate.queryForList(sql, offset, pageSize);
-//
-//        // Add the view data and pagination information to the model
-//        model.addAttribute("viewData", viewData);
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("pageSize", pageSize);
-//
-//        // Call the view named "policy-view" and pass the model to it
-//        return "all_policies";
-//    }
-
+    @GetMapping("/")
+    public String defaultRedirect() {
+        return "redirect:/policies";
+    }
 
     @GetMapping("/policies")
     public String getPolicy(@RequestParam(defaultValue = "0") int page,
@@ -94,8 +73,7 @@ public class PolicyController {
 
     @GetMapping("/create-policy")
     public String showCreatePolicyForm(Model model) {
-        // Add any necessary data to the model if needed
-        return "create-policy"; // Replace with the actual name of your HTML form view
+        return "create-policy";
     }
 
 
@@ -146,6 +124,83 @@ public class PolicyController {
     }
 
 
+    @GetMapping("/update-policy")
+    public String showUpdatePolicyForm(@RequestParam("policyId") int index,
+                                       @RequestParam("managerId") int managerId,
+                                       @RequestParam("agentId") int agentId,
+                                       @RequestParam("startDate") String startDate,
+                                       @RequestParam("endDate") String endDate,
+                                       @RequestParam("policyPriceId") int policyPriceId,
+                                       @RequestParam("policyStatusId") int policyStatusId,
+                                       @RequestParam("policyHolderId") int policyHolderId,
+                                       @RequestParam("policyPaymentId") int policyPaymentId,
+                                       @RequestParam("insuranceTypeId") int insuranceTypeId,
+                                       @RequestParam("subTypeId") int subTypeId,
+                                       @RequestParam("policyAttributesId") int policyAttributesId,
+                                       Model model) {
+
+        model.addAttribute("policyId", index);
+        model.addAttribute("managerId", managerId);
+        model.addAttribute("agentId", agentId);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("policyPriceId", policyPriceId);
+        model.addAttribute("policyStatusId", policyStatusId);
+        model.addAttribute("policyHolderId", policyHolderId);
+        model.addAttribute("policyPaymentId", policyPaymentId);
+        model.addAttribute("insuranceTypeId", insuranceTypeId);
+        model.addAttribute("subTypeId", subTypeId);
+        model.addAttribute("policyAttributesId", policyAttributesId);
+
+        return "update-policy";
+    }
+
+    @PostMapping("/update-policy")
+    public String updatePolicy(@RequestParam("policyId") int index,
+                               @RequestParam("managerId") int managerId,
+                               @RequestParam("agentId") int agentId,
+                               @RequestParam("startDate") String startDate,
+                               @RequestParam("endDate") String endDate,
+                               @RequestParam("policyPriceId") int policyPriceId,
+                               @RequestParam("policyStatusId") int policyStatusId,
+                               @RequestParam("policyHolderId") int policyHolderId,
+                               @RequestParam("policyPaymentId") int policyPaymentId,
+                               @RequestParam("insuranceTypeId") int insuranceTypeId,
+                               @RequestParam("subTypeId") int subTypeId,
+                               @RequestParam("policyAttributesId") int policyAttributesId,
+                               Model model) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
+        LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
+
+        try {
+            jdbcTemplate.execute("CALL updatepolicy(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (CallableStatementCallback<Object>) cs -> {
+                        cs.setInt(1, index);
+                        cs.setInt(2, managerId);
+                        cs.setInt(3, agentId);
+                        cs.setDate(4, Date.valueOf(parsedStartDate));
+                        cs.setDate(5, Date.valueOf(parsedEndDate));
+                        cs.setInt(6, policyPriceId);
+                        cs.setInt(7, policyStatusId);
+                        cs.setInt(8, policyHolderId);
+                        cs.setInt(9, policyPaymentId);
+                        cs.setInt(10, insuranceTypeId);
+                        cs.setInt(11, subTypeId);
+                        cs.setInt(12, policyAttributesId);
+                        cs.execute();
+                        return null;
+                    });
+        } catch (Exception e) {
+            // Handle exception and display appropriate error message
+            String errorMessage = e.getMessage();
+            model.addAttribute("errorMessage", errorMessage);
+            return "error-page";
+        }
+
+        return "redirect:/policies";
+    }
 
 
 ////////////////////TEST//////////////////////////////////////////
