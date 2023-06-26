@@ -25,7 +25,7 @@
 <div class="container mt-4">
     <h1>All Claims</h1>
 
-    <a class="nav-link" href="/create-claim-get">
+    <a class="nav-link" href="/create-claim">
         <button type="button" class="btn btn-success">Create</button>
     </a>
 
@@ -33,6 +33,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th></th>
                 <th>Claim ID</th>
                 <th>Policy ID</th>
                 <th>Date</th>
@@ -48,6 +49,17 @@
             </thead>
             <tbody>
             <tr th:each="claim : ${viewData}">
+                <td>
+                    <a class="nav-link" th:href="@{/update-claim(claimId=${claim['id']},
+                        policyId=${claim['policyid']},
+                        startDate=${claim['date']},
+                        description=${claim['description']},
+                        adjusterId=${claim['adjusterid']},
+                        customerId=${claim['customerid']},
+                        statusId=${claim['statusid']})}">
+                        <button type="button" class="btn btn-outline-info">Edit</button>
+                    </a>
+                </td>
                 <td th:text="${claim['id']}"></td>
                 <td th:text="${claim['policyid']}"></td>
                 <td th:text="${claim['date']}"></td>

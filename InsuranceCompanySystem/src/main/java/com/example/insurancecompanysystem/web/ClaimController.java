@@ -54,7 +54,7 @@ public class ClaimController {
         return "all_claims";
     }
 
-    @GetMapping("/create-claim-get")
+    @GetMapping("/create-claim")
     public String showCreateClaimForm(Model model) {
         // Add any necessary data to the model if needed
         return "create-claim";
@@ -79,6 +79,61 @@ public class ClaimController {
                         cs.setInt(4, adjusterId);
                         cs.setInt(5, customerId);
                         cs.setInt(6, 1);
+                        cs.execute();
+                        return null;
+                    });
+        } catch (Exception e) {
+            // Handle exception and display appropriate error message
+            String errorMessage = e.getMessage();
+            model.addAttribute("errorMessage", errorMessage);
+            return "error-page";
+        }
+
+        return "redirect:/claims";
+    }
+
+    @GetMapping("/update-claim")
+    public String showUpdateClaimForm(@RequestParam("claimId") int claimId,
+                                      @RequestParam("policyId") int policyId,
+                                      @RequestParam("adjusterId") int adjusterId,
+                                      @RequestParam("startDate") String startDate,
+                                      @RequestParam("description") String description,
+                                      @RequestParam("customerId") int customerId,
+                                      @RequestParam("statusId") int statusId, Model model) {
+
+        model.addAttribute("claimId", claimId);
+        model.addAttribute("policyId", policyId);
+        model.addAttribute("adjusterId", adjusterId);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("description", description);
+        model.addAttribute("customerId", customerId);
+        model.addAttribute("statusId", statusId);
+
+        return "update-claim";
+    }
+
+    @PostMapping("/update-claim")
+    public String updateClaim(@RequestParam("claimId") int claimId,
+                              @RequestParam("policyId") int policyId,
+                              @RequestParam("adjusterId") int adjusterId,
+                              @RequestParam("startDate") String startDate,
+                              @RequestParam("description") String description,
+                              @RequestParam("customerId") int customerId,
+                              @RequestParam("statusId") int statusId, Model model) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
+
+        try {
+            jdbcTemplate.execute("CALL updateclaim(?, ?, ?, ?, ?, ?, ?)",
+                    (CallableStatementCallback<Object>) cs -> {
+                        cs.setInt(1, claimId);
+                        cs.setInt(2, policyId);
+                        cs.setDate(3, Date.valueOf(parsedStartDate));
+                        cs.setString(4, String.valueOf(description));
+                        cs.setInt(5, adjusterId);
+                        cs.setInt(6, customerId);
+                        cs.setInt(7, statusId);
                         cs.execute();
                         return null;
                     });
