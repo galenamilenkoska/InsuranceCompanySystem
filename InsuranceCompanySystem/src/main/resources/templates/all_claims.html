@@ -25,54 +25,53 @@
 <div class="container mt-4">
     <h1>All Claims</h1>
     <div style="overflow: auto">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Claim ID</th>
-            <th>Policy ID</th>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Adjuster ID</th>
-            <th>Adjuster First Name</th>
-            <th>Adjuster Last Name</th>
-            <th>Customer ID</th>
-            <th>Customer Name</th>
-            <th>Status ID</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Use Thymeleaf iteration to populate the table rows -->
-        <tr th:each="claim : ${viewData}">
-            <td th:text="${claim.id}"></td>
-            <td th:text="${claim.policyid}"></td>
-            <td th:text="${claim.date}"></td>
-            <td th:text="${claim.description}"></td>
-            <td th:text="${claim.adjusterid}"></td>
-            <td th:text="${claim.adjusterfirstname}"></td>
-            <td th:text="${claim.adjusterlastname}"></td>
-            <td th:text="${claim.customerid}"></td>
-            <td th:text="${claim.customername}"></td>
-            <td th:text="${claim.statusid}"></td>
-            <td th:text="${claim.status}"></td>
-        </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Claim ID</th>
+                <th>Policy ID</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Adjuster ID</th>
+                <th>Adjuster First Name</th>
+                <th>Adjuster Last Name</th>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Status ID</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="claim : ${viewData}">
+                <td th:text="${claim['id']}"></td>
+                <td th:text="${claim['policyid']}"></td>
+                <td th:text="${claim['date']}"></td>
+                <td th:text="${claim['description']}"></td>
+                <td th:text="${claim['adjusterid']}"></td>
+                <td th:text="${claim['adjusterfirstname']}"></td>
+                <td th:text="${claim['adjusterlastname']}"></td>
+                <td th:text="${claim['customerid']}"></td>
+                <td th:text="${claim['customername']}"></td>
+                <td th:text="${claim['statusid']}"></td>
+                <td th:text="${claim['status']}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- Pagination -->
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{policies(page=${currentPage - 1}, pageSize=${pageSize})}">Previous</a>
+                <a class="page-link" th:href="@{/claims(page=${currentPage - 1}, pageSize=${pageSize})}">Previous</a>
             </li>
             <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, (viewData.size() / pageSize) - 1)}" th:class="${pageNumber == currentPage ? 'active' : ''}">
-                <a class="page-link" th:href="@{policies(page=${pageNumber}, pageSize=${pageSize})}">
+                <a class="page-link" th:href="@{/claims(page=${pageNumber}, pageSize=${pageSize})}">
                     <span th:text="${pageNumber + 1}"></span>
                 </a>
             </li>
             <li class="page-item" th:class="${currentPage >= (viewData.size() / pageSize) - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{policies(page=${currentPage + 1}, pageSize=${pageSize})}">Next</a>
+                <a class="page-link" th:href="@{/claims(page=${currentPage + 1}, pageSize=${pageSize})}">Next</a>
             </li>
         </ul>
     </nav>
