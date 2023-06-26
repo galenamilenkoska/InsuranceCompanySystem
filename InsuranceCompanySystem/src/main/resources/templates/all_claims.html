@@ -4,6 +4,12 @@
     <title>All Claims</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+    .disabled{
+        pointer-events: none;
+        color: gray !important;
+    }
+</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">My Insurance Company</a>
@@ -12,11 +18,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Create Policy</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="/policies">Policies</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">View All Policies</a>
+                <a class="nav-link" href="/claims">Claims</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/stats/most-used-insurances">Most Purchased insurances</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/stats/policy_claims_damages">Policy Claims</a>
             </li>
         </ul>
     </div>
