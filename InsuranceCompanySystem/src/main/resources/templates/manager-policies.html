@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Claim</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .disabled{
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">My Insurance Company</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/policies">Policies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/claims">Claims</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/stats/most-used-insurances">Most Purchased insurances</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/stats/policy_claims_damages">Policy Claims</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/customers">Customers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/users">Employees</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+  <h2>Edit Claim for Policy</h2>
+
+<!--  <form action="/claims/update" method="post">-->
+<!--      <div class="mb-3">-->
+<!--          <label for="claimId" class="form-label">ID:</label>-->
+<!--          <input type="text" class="form-control" id="claimId" name="claimId" th:value="${claimId}" required>-->
+<!--      </div>-->
+<!--      <div class="mb-3">-->
+<!--          <label for="policyId" class="form-label">Policy ID:</label>-->
+<!--          <input type="text" class="form-control" id="policyId" name="policyId" th:value="${policyId}" required>-->
+<!--      </div>-->
+<!--      <div class="row">-->
+<!--          <div class="col-md-6 mb-3">-->
+<!--              <label for="customerId" class="form-label">Customer ID:</label>-->
+<!--              <input type="text" class="form-control" id="customerId" name="customerId" th:value="${customerId}" required>-->
+<!--          </div>-->
+<!--          <div class="col-md-6 mb-3">-->
+<!--            <label for="adjusterId" class="form-label">Adjuster ID:</label>-->
+<!--            <input type="text" class="form-control" id="adjusterId" name="adjusterId" th:value="${adjusterId}" required>-->
+<!--          </div>-->
+<!--      </div>-->
+
+<!--      <div class="row">-->
+<!--          <div class="col-md-6 mb-3">-->
+<!--              <label for="startDate" class="form-label">Start Date:</label>-->
+<!--              <input type="date" class="form-control" id="startDate" name="startDate" th:value="${startDate}" required>-->
+<!--          </div>-->
+<!--          <div class="col-md-6 mb-3">-->
+<!--              <label for="statusId" class="form-label">Status ID:</label>-->
+<!--&lt;!&ndash;              <input type="text" class="form-control" id="statusId" name="statusId" th:value="${statusId}" required>&ndash;&gt;-->
+<!--              <select class="form-control" id="statusId" name="statusId" required>-->
+<!--                  &lt;!&ndash; Option for default disabled value &ndash;&gt;-->
+<!--                  <option value="" disabled selected>Select Status</option>-->
+<!--                  &lt;!&ndash; Dynamically populate options using Thymeleaf &ndash;&gt;-->
+<!--                  <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.status}" th:selected="${status.id == statusId}"></option>-->
+<!--              </select>-->
+<!--          </div>-->
+<!--      </div>-->
+
+<!--      <div class="mb-3">-->
+<!--        <label for="description" class="form-label">Description:</label>-->
+<!--        <input type="text" class="form-control" id="description" name="description" th:value="${description}" required>-->
+<!--      </div>-->
+
+<!--    <button type="submit" class="btn btn-primary">Update Claim</button>-->
+<!--  </form>-->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

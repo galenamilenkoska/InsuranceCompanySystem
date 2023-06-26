@@ -30,9 +30,15 @@ public class DamageController {
         String sql = "SELECT * FROM all_damages OFFSET ? LIMIT ?";
         List<Map<String, Object>> viewData = jdbcTemplate.queryForList(sql, offset, pageSize);
 
+        // Add the view data and pagination information to the model
         model.addAttribute("viewData", viewData);
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", pageSize);
+
+        int totalClaims = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM all_damages", Integer.class);
+        int totalPages = (int) Math.ceil((double) totalClaims / pageSize);
+
+        model.addAttribute("totalPages", totalPages);
 
         return "all_damages";
     }

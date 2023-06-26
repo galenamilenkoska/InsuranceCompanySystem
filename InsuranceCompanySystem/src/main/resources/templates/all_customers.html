@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>All Damages</title>
+    <title>Customers</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <style>
         .disabled{
             pointer-events: none;
         }
     </style>
 </head>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">My Insurance Company</a>
@@ -41,53 +43,52 @@
         </ul>
     </div>
 </nav>
-<div class="m-5">
-    <h1>All Damages</h1>
-    <div>
-        <a class="nav-link" href="/damages/create">
-            <button type="button" class="btn btn-success">Create</button>
-        </a>
-    </div>
+
+<div class="m-4">
+    <h1>All Customers</h1>
+
+    <a class="nav-link" href="/claims/create">
+        <button type="button" class="btn btn-success">Create</button>
+    </a>
+
     <div style="overflow: auto">
         <table class="table">
             <thead>
             <tr>
-                <th></th>
-                <th>Damage ID</th>
-                <th>Claim ID</th>
-                <th>Description</th>
-                <th>Damage Type</th>
-                <th>Date of Payment</th>
-                <th>Status of Payment</th>
-                <th>Received Payment</th>
-                <th>Received From</th>
-                <th>Paid to Customer</th>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone number</th>
+                <th>Municipality ID</th>
+                <th>Municipality</th>
+                <th>Settlement ID</th>
+                <th>Settlement</th>
+                <th>City ID</th>
+                <th>City</th>
+                <th>State ID</th>
+                <th>State</th>
+                <th>Customer Type ID</th>
+                <th>Customer Type</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="damage : ${viewData}">
-                <td>
-                    <a class="nav-link" th:href="@{/damages/update(damageId=${damage['id']},
-                        claimId=${damage['claimId']},
-                        description=${damage['description']},
-                        damageType=${damage['damage_type']},
-                        dateOfPayment=${damage['date_of_payment']},
-                        statusOfPayment=${damage['status_of_payment']},
-                        receivedPayment=${damage['received_payment']},
-                        receivedFrom=${damage['received_from']},
-                        paidToCustomer=${damage['paid_to_customer']})}">
-                        <button type="button" class="btn btn-outline-info">Edit</button>
-                    </a>
-                </td>
-                <td th:text="${damage['id']}"></td>
-                <td th:text="${damage['claimid']}"></td>
-                <td th:text="${damage['description']}"></td>
-                <td th:text="${damage['damage_type']}"></td>
-                <td th:text="${damage['date_of_payment']}"></td>
-                <td th:text="${damage['status_of_payment']}"></td>
-                <td th:text="${damage['received_payment']}"></td>
-                <td th:text="${damage['received_from']}"></td>
-                <td th:text="${damage['paid_to_customer']}"></td>
+            <tr th:each="customer : ${viewData}">
+                <td th:text="${customer['id']}"></td>
+                <td th:text="${customer['name']}"></td>
+                <td th:text="${customer['address']}">Address</td>
+                <td th:text="${customer['email']}">Email</td>
+                <td th:text="${customer['phone_no']}">Phone number</td>
+                <td th:text="${customer['municipalityid']}"></td>
+                <td th:text="${customer['municipality']}"></td>
+                <td th:text="${customer['settlementid']}"></td>
+                <td th:text="${customer['settlement']}"></td>
+                <td th:text="${customer['cityid']}"></td>
+                <td th:text="${customer['city']}"></td>
+                <td th:text="${customer['stateid']}"></td>
+                <td th:text="${customer['state']}"></td>
+                <td th:text="${customer['customertypeid']}"></td>
+                <td th:text="${customer['type']}"></td>
             </tr>
             </tbody>
         </table>

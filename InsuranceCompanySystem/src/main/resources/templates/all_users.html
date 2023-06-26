@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>All Damages</title>
+    <title>Users</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <style>
         .disabled{
             pointer-events: none;
         }
     </style>
 </head>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">My Insurance Company</a>
@@ -41,53 +43,40 @@
         </ul>
     </div>
 </nav>
-<div class="m-5">
-    <h1>All Damages</h1>
-    <div>
-        <a class="nav-link" href="/damages/create">
-            <button type="button" class="btn btn-success">Create</button>
-        </a>
-    </div>
+
+<div class="m-4">
+    <h1>All Users</h1>
+
     <div style="overflow: auto">
         <table class="table">
             <thead>
             <tr>
+                <th>User ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone number</th>
+                <th>User Type ID</th>
+                <th>Customer Type</th>
                 <th></th>
-                <th>Damage ID</th>
-                <th>Claim ID</th>
-                <th>Description</th>
-                <th>Damage Type</th>
-                <th>Date of Payment</th>
-                <th>Status of Payment</th>
-                <th>Received Payment</th>
-                <th>Received From</th>
-                <th>Paid to Customer</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="damage : ${viewData}">
+            <tr th:each="user : ${viewData}">
+                <td th:text="${user['id']}"></td>
+                <td th:text="${user['first_name']}"></td>
+                <td th:text="${user['last_name']}"></td>
+                <td th:text="${user['username']}"></td>
+                <td th:text="${user['email']}"></td>
+                <td th:text="${user['phone_no']}"></td>
+                <td th:text="${user['user_type']}"></td>
+                <td th:text="${user['type']}"></td>
                 <td>
-                    <a class="nav-link" th:href="@{/damages/update(damageId=${damage['id']},
-                        claimId=${damage['claimId']},
-                        description=${damage['description']},
-                        damageType=${damage['damage_type']},
-                        dateOfPayment=${damage['date_of_payment']},
-                        statusOfPayment=${damage['status_of_payment']},
-                        receivedPayment=${damage['received_payment']},
-                        receivedFrom=${damage['received_from']},
-                        paidToCustomer=${damage['paid_to_customer']})}">
-                        <button type="button" class="btn btn-outline-info">Edit</button>
+                    <a th:if="${user.user_type} == 3" th:href="@{/users/manager-policies(managerId=${user['id']})}">
+                        <button type="button" class="btn btn-info">Manage Policies</button>
                     </a>
                 </td>
-                <td th:text="${damage['id']}"></td>
-                <td th:text="${damage['claimid']}"></td>
-                <td th:text="${damage['description']}"></td>
-                <td th:text="${damage['damage_type']}"></td>
-                <td th:text="${damage['date_of_payment']}"></td>
-                <td th:text="${damage['status_of_payment']}"></td>
-                <td th:text="${damage['received_payment']}"></td>
-                <td th:text="${damage['received_from']}"></td>
-                <td th:text="${damage['paid_to_customer']}"></td>
             </tr>
             </tbody>
         </table>
@@ -97,21 +86,21 @@
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{customers(page=0, pageSize=${pageSize})}">First</a>
+                <a class="page-link" th:href="@{users(page=0, pageSize=${pageSize})}">First</a>
             </li>
             <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{customers(page=${currentPage - 1}, pageSize=${pageSize})}">Previous</a>
+                <a class="page-link" th:href="@{users(page=${currentPage - 1}, pageSize=${pageSize})}">Previous</a>
             </li>
             <li class="page-item">
-                <a class="page-link" th:href="@{/customers(page=${currentPage}, pageSize=${pageSize})}">
+                <a class="page-link" th:href="@{/users(page=${currentPage}, pageSize=${pageSize})}">
                     <span th:text="${currentPage + 1}"></span>
                 </a>
             </li>
             <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{customers(page=${currentPage + 1}, pageSize=${pageSize})}">Next</a>
+                <a class="page-link" th:href="@{users(page=${currentPage + 1}, pageSize=${pageSize})}">Next</a>
             </li>
             <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{customers(page=${totalPages - 1}, pageSize=${pageSize})}">Last</a>
+                <a class="page-link" th:href="@{users(page=${totalPages - 1}, pageSize=${pageSize})}">Last</a>
             </li>
         </ul>
     </nav>
