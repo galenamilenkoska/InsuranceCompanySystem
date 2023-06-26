@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/claims")
 public class ClaimController {
 
     private final JdbcTemplate jdbcTemplate;
@@ -29,8 +31,7 @@ public class ClaimController {
     public String defaultRedirect() {
         return "redirect:/claims";
     }
-
-    @GetMapping("/claims")
+    @GetMapping
     public String getClaims(@RequestParam(defaultValue = "0") int page,
                             @RequestParam(defaultValue = "10") int pageSize,
                             Model model) {
@@ -54,13 +55,12 @@ public class ClaimController {
         return "all_claims";
     }
 
-    @GetMapping("/create-claim")
+    @GetMapping("/create")
     public String showCreateClaimForm(Model model) {
-        // Add any necessary data to the model if needed
         return "create-claim";
     }
 
-    @PostMapping("/create-claim")
+    @PostMapping("/create")
     public String createClaim(@RequestParam("policyId") int policyId,
                                @RequestParam("adjusterId") int adjusterId,
                                @RequestParam("startDate") String startDate,
@@ -92,7 +92,7 @@ public class ClaimController {
         return "redirect:/claims";
     }
 
-    @GetMapping("/update-claim")
+    @GetMapping("/update")
     public String showUpdateClaimForm(@RequestParam("claimId") int claimId,
                                       @RequestParam("policyId") int policyId,
                                       @RequestParam("adjusterId") int adjusterId,
@@ -101,6 +101,9 @@ public class ClaimController {
                                       @RequestParam("customerId") int customerId,
                                       @RequestParam("statusId") int statusId, Model model) {
 
+        String sql = "SELECT * FROM policystatus order by id";
+        List<Map<String, Object>> statusList = jdbcTemplate.queryForList(sql);
+
         model.addAttribute("claimId", claimId);
         model.addAttribute("policyId", policyId);
         model.addAttribute("adjusterId", adjusterId);
@@ -108,11 +111,15 @@ public class ClaimController {
         model.addAttribute("description", description);
         model.addAttribute("customerId", customerId);
         model.addAttribute("statusId", statusId);
+        model.addAttribute("statusList", statusList);
+
+//        model.addAttribute("statusDropdown", statuses);
+
 
         return "update-claim";
     }
 
-    @PostMapping("/update-claim")
+    @PostMapping("/update")
     public String updateClaim(@RequestParam("claimId") int claimId,
                               @RequestParam("policyId") int policyId,
                               @RequestParam("adjusterId") int adjusterId,

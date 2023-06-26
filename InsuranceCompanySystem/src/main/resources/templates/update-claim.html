@@ -25,7 +25,7 @@
 <div class="container mt-4">
   <h2>Edit Claim for Policy</h2>
 
-  <form action="/update-claim" method="post">
+  <form action="/claims/update" method="post">
       <div class="mb-3">
           <label for="claimId" class="form-label">ID:</label>
           <input type="text" class="form-control" id="claimId" name="claimId" th:value="${claimId}" required>
@@ -52,7 +52,13 @@
           </div>
           <div class="col-md-6 mb-3">
               <label for="statusId" class="form-label">Status ID:</label>
-              <input type="text" class="form-control" id="statusId" name="statusId" th:value="${statusId}" required>
+<!--              <input type="text" class="form-control" id="statusId" name="statusId" th:value="${statusId}" required>-->
+              <select class="form-control" id="statusId" name="statusId" required>
+                  <!-- Option for default disabled value -->
+                  <option value="" disabled selected>Select Status</option>
+                  <!-- Dynamically populate options using Thymeleaf -->
+                  <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.status}" th:selected="${status.id == statusId}"></option>
+              </select>
           </div>
       </div>
 
