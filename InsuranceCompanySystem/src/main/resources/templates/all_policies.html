@@ -60,7 +60,7 @@
             <!-- Use Thymeleaf to dynamically render table rows -->
             <tr th:each="policy : ${viewData}">
                 <td>
-                    <a class="nav-link" th:href="@{/update-policy(policyId=${policy['id']},
+                    <a class="nav-link" th:href="@{/policies/update(policyId=${policy['id']},
                         managerId=${policy['manager_id']},
                         agentId=${policy['agentid']},
                         startDate=${policy['start_date']},

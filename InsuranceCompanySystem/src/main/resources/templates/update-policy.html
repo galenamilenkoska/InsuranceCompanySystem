@@ -25,7 +25,7 @@
 <div class="container mt-4">
   <h2>Edit Policy</h2>
 
-  <form action="/update-policy" method="post">
+  <form action="/policies/update" method="post">
     <div class="mb-3">
       <label for="policyId" class="form-label">Policy ID:</label>
       <input type="text" class="form-control" id="policyId" name="policyId" th:value="${policyId}" required>
@@ -50,9 +50,12 @@
       <label for="policyPriceId" class="form-label">Policy Price ID:</label>
       <input type="text" class="form-control" id="policyPriceId" name="policyPriceId" th:value="${policyPriceId}" required>
     </div>
-    <div class="mb-3">
-      <label for="policyStatusId" class="form-label">Policy Status ID:</label>
-      <input type="text" class="form-control" id="policyStatusId" name="policyStatusId" th:value="${policyStatusId}" required>
+    <div class="col-md-6 mb-3">
+      <label for="policyStatusId" class="form-label">Status ID:</label>
+      <select class="form-control" id="policyStatusId" name="policyStatusId" required>
+       <option value="" disabled selected>Select Status</option>
+        <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.status}" th:selected="${status.id == statusId}"></option>
+      </select>
     </div>
     <div class="mb-3">
       <label for="policyHolderId" class="form-label">Policy Holder ID:</label>
