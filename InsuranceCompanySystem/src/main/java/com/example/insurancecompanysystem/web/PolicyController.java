@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/policies")
 public class PolicyController {
     private final JdbcTemplate jdbcTemplate;
 
@@ -38,12 +40,12 @@ public class PolicyController {
 //        return "policy-view";
 //    }
 
-    @GetMapping("/")
-    public String defaultRedirect() {
-        return "redirect:/policies";
-    }
+//    @GetMapping("/")
+//    public String defaultRedirect() {
+//        return "redirect:/policies";
+//    }
 
-    @GetMapping("/policies")
+    @GetMapping
     public String getPolicy(@RequestParam(defaultValue = "0") int page,
                             @RequestParam(defaultValue = "10") int pageSize,
                             Model model) {
@@ -73,12 +75,16 @@ public class PolicyController {
     }
 
 
-    @GetMapping("/create-policy")
+    @GetMapping("/create")
     public String showCreatePolicyForm(Model model) {
+        String sql1 = "select * from insurancetype order by id";
+        List<Map<String, Object>> insurancetypeList = jdbcTemplate.queryForList(sql1);
+
+        model.addAttribute("insurancetypeList", insurancetypeList);
         return "create-policy-full";
     }
 
-    @PostMapping("/create-policy")
+    @PostMapping("/create")
     public String createPolicy(
             @RequestParam("managerId") int managerId,
             @RequestParam("agentId") int agentId,
@@ -169,7 +175,7 @@ public class PolicyController {
         return "redirect:/policies";
     }
 
-    @GetMapping("/update-policy")
+    @GetMapping("/update")
     public String showUpdatePolicyForm(@RequestParam("policyId") int index,
                                        @RequestParam("managerId") int managerId,
                                        @RequestParam("agentId") int agentId,
@@ -184,6 +190,11 @@ public class PolicyController {
                                        @RequestParam("policyAttributesId") int policyAttributesId,
                                        Model model) {
 
+        String sql = "SELECT * FROM policystatus order by id";
+        List<Map<String, Object>> statusList = jdbcTemplate.queryForList(sql);
+        String sql1 = "select * from insurancetype order by id";
+        List<Map<String, Object>> insurancetypeList = jdbcTemplate.queryForList(sql1);
+
         model.addAttribute("policyId", index);
         model.addAttribute("managerId", managerId);
         model.addAttribute("agentId", agentId);
@@ -197,10 +208,13 @@ public class PolicyController {
         model.addAttribute("subTypeId", subTypeId);
         model.addAttribute("policyAttributesId", policyAttributesId);
 
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("insurancetypeList", insurancetypeList);
+
         return "update-policy";
     }
 
-    @PostMapping("/update-policy")
+    @PostMapping("/update")
     public String updatePolicy(@RequestParam("policyId") int index,
                                @RequestParam("managerId") int managerId,
                                @RequestParam("agentId") int agentId,

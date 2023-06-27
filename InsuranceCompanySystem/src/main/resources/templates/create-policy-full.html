@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Policy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">My Insurance Company</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Create Policy</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#">View All Policies</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <h2>Create Policy</h2>
+
+  <form action="/policies/create" method="post">
+    <div class="mb-3">
+      <label for="managerId" class="form-label">Manager ID:</label>
+      <input type="text" class="form-control" id="managerId" name="managerId" required>
+    </div>
+    <div class="mb-3">
+      <label for="agentId" class="form-label">Agent ID:</label>
+      <input type="text" class="form-control" id="agentId" name="agentId" required>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="startDate" class="form-label">Start Date:</label>
+        <input type="date" class="form-control" id="startDate" name="startDate" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="endDate" class="form-label">End Date:</label>
+        <input type="date" class="form-control" id="endDate" name="endDate" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="policyTypeId" class="form-label">Policy Type ID:</label>
+        <input type="text" class="form-control" id="policyTypeId" name="policyTypeId" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="basePrice" class="form-label">Base Price:</label>
+        <input type="text" class="form-control" id="basePrice" name="basePrice" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="deductible" class="form-label">Deductible:</label>
+        <input type="text" class="form-control" id="deductible" name="deductible" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="paymentDate" class="form-label">Payment Date:</label>
+        <input type="date" class="form-control" id="paymentDate" name="paymentDate" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="paymentAmount" class="form-label">Payment Amount:</label>
+        <input type="text" class="form-control" id="paymentAmount" name="paymentAmount" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="paymentType" class="form-label">Payment Type:</label>
+        <input type="text" class="form-control" id="paymentType" name="paymentType" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="policyStatusId" class="form-label">Policy Status ID:</label>
+        <input type="text" class="form-control" id="policyStatusId" name="policyStatusId" required>
+      </div>
+      <<div class="col-md-6 mb-3">
+      <label for="insuranceTypeId" class="form-label">Insurance Type ID:</label>
+      <select class="form-control" id="insuranceTypeId" name="insuranceTypeId" required>
+        <option value="" disabled selected>Select Status</option>
+        <option th:each="status : ${insurancetypeList}" th:value="${status.id}" th:text="${status.type}" th:selected="${status.id == statusId}"></option>
+      </select>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="subTypeId" class="form-label">Sub Type ID:</label>
+        <input type="text" class="form-control" id="subTypeId" name="subTypeId" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="policyHolderId" class="form-label">Policy Holder ID:</label>
+        <input type="text" class="form-control" id="policyHolderId" name="policyHolderId" required>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="registrationNo" class="form-label">Registration No:</label>
+      <input type="text" class="form-control" id="registrationNo" name="registrationNo" required>
+    </div>
+    <div class="mb-3">
+      <label for="chasisNo" class="form-label">Chasis No:</label>
+      <input type="text" class="form-control" id="chasisNo" name="chasisNo" required>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description:</label>
+      <textarea class="form-control" id="description" name="description" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="levelOfJobRisk" class="form-label">Level of Job Risk:</label>
+      <input type="text" class="form-control" id="levelOfJobRisk" name="levelOfJobRisk" required>
+    </div>
+    <div class="mb-3">
+      <label for="propertyArea" class="form-label">Property Area:</label>
+      <input type="text" class="form-control" id="propertyArea" name="propertyArea" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Policy</button>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
