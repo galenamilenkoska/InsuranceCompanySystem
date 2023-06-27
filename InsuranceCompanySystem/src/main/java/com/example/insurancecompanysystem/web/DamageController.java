@@ -86,7 +86,6 @@ public class DamageController {
 
     @GetMapping("/update/{id}")
     public String showCreateDamageForm(@RequestParam("damageId") int damageId,
-                                       @RequestParam("policyId") int policyId,
                                        @RequestParam("claimId") int claimId,
                                        @RequestParam("damageType") String damageType,
                                        @RequestParam("statusOfPayment") boolean statusOfPayment,
@@ -96,6 +95,9 @@ public class DamageController {
                                        @RequestParam("dateOfPayment") String dateOfPayment,
                                        Model model) {
         model.addAttribute("damageId", damageId);
+        String sql = "SELECT policyid FROM damage WHERE id = ";
+        sql.concat(String.valueOf(damageId));
+        int policyId = jdbcTemplate.queryForObject(sql, Integer.class);
         model.addAttribute("policyId", policyId);
         model.addAttribute("claimId", claimId);
         model.addAttribute("damageType", damageType);
@@ -122,7 +124,7 @@ public class DamageController {
                                 Model model) {
         String sql = "CALL updatedamage(?, ?, ?, ?)";
         try{
-            jdbcTemplate.update(sql, policyId, claimId, damageType);
+            jdbcTemplate.update(sql, damageId, policyId, claimId, damageType);
         }
         catch(Exception e){
             String errorMessage = e.getMessage();

@@ -68,7 +68,7 @@
             <tr th:each="damage : ${viewData}">
                 <td>
                     <a class="nav-link" th:href="@{/damages/update(damageId=${damage['id']},
-                        claimId=${damage['claimId']},
+                        claimId=${damage['claimid']},
                         description=${damage['description']},
                         damageType=${damage['damage_type']},
                         dateOfPayment=${damage['date_of_payment']},
