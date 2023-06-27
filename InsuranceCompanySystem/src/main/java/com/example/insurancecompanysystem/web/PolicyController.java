@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -72,13 +73,10 @@ public class PolicyController {
     }
 
 
-
     @GetMapping("/create-policy")
     public String showCreatePolicyForm(Model model) {
         return "create-policy-full";
     }
-
-
 
     @PostMapping("/create-policy")
     public String createPolicy(
@@ -86,12 +84,16 @@ public class PolicyController {
             @RequestParam("agentId") int agentId,
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
-            @RequestParam("policyPriceId") int policyPriceId,
+            @RequestParam("policyTypeId") int policyTypeId,
+            @RequestParam("basePrice") BigDecimal basePrice,
+            @RequestParam("deductible") BigDecimal deductible,
+            @RequestParam("paymentDate") String paymentDate,
+            @RequestParam("paymentAmount") BigDecimal paymentAmount,
+            @RequestParam("paymentType") int paymentType,
             @RequestParam("policyStatusId") int policyStatusId,
-            @RequestParam("policyHolderId") int policyHolderId,
-            @RequestParam("policyPaymentId") int policyPaymentId,
             @RequestParam("insuranceTypeId") int insuranceTypeId,
             @RequestParam("subTypeId") int subTypeId,
+            @RequestParam("policyHolderId") int policyHolderId,
             @RequestParam("registrationNo") String registrationNo,
             @RequestParam("chasisNo") String chasisNo,
             @RequestParam("description") String description,
@@ -102,6 +104,7 @@ public class PolicyController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate parsedStartDate = LocalDate.parse(startDate, formatter);
         LocalDate parsedEndDate = LocalDate.parse(endDate, formatter);
+        LocalDate parsedPaymentDate = LocalDate.parse(paymentDate, formatter);
 
         try {
             jdbcTemplate.execute("CALL createpolicyattributes(?, ?, ?, ?, ?)",
@@ -117,7 +120,27 @@ public class PolicyController {
                     });
 
             // Retrieve the maximum ID from policyattributes table
-            int policyAttributesId = jdbcTemplate.queryForObject("SELECT MAX(id) FROM policyatributes", Integer.class);
+            int policyFullId = jdbcTemplate.queryForObject("SELECT MAX(id) FROM policyatributes", Integer.class);
+
+            jdbcTemplate.execute("CALL createpolicyprice(?, ?, ?)",
+                    (CallableStatementCallback<Object>) cs -> {
+                        cs.setInt(1, policyTypeId); // Use the request parameter
+                        cs.setBigDecimal(2, basePrice); // Use the request parameter
+                        cs.setBigDecimal(3, deductible); // Use the request parameter
+                        cs.execute();
+
+                        return null;
+                    });
+
+            jdbcTemplate.execute("CALL createpolicypayment(?, ?, ?)",
+                    (CallableStatementCallback<Object>) cs -> {
+                        cs.setDate(1, Date.valueOf(parsedPaymentDate));
+                        cs.setBigDecimal(2, paymentAmount);
+                        cs.setInt(3, paymentType);
+                        cs.execute();
+
+                        return null;
+                    });
 
             jdbcTemplate.execute("CALL createpolicy(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     (CallableStatementCallback<Object>) cs -> {
@@ -125,13 +148,13 @@ public class PolicyController {
                         cs.setInt(2, agentId);
                         cs.setDate(3, Date.valueOf(parsedStartDate));
                         cs.setDate(4, Date.valueOf(parsedEndDate));
-                        cs.setInt(5, policyPriceId);
+                        cs.setInt(5, policyFullId);
                         cs.setInt(6, policyStatusId);
                         cs.setInt(7, policyHolderId);
-                        cs.setInt(8, policyPaymentId);
+                        cs.setInt(8, policyFullId);
                         cs.setInt(9, insuranceTypeId);
                         cs.setInt(10, subTypeId);
-                        cs.setInt(11, policyAttributesId);
+                        cs.setInt(11, policyFullId);
                         cs.execute();
 
                         return null;
