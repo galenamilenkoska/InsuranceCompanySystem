@@ -77,6 +77,10 @@ public class PolicyController {
 
     @GetMapping("/create")
     public String showCreatePolicyForm(Model model) {
+        String sql1 = "select * from insurancetype order by id";
+        List<Map<String, Object>> insurancetypeList = jdbcTemplate.queryForList(sql1);
+
+        model.addAttribute("insurancetypeList", insurancetypeList);
         return "create-policy-full";
     }
 
@@ -188,6 +192,8 @@ public class PolicyController {
 
         String sql = "SELECT * FROM policystatus order by id";
         List<Map<String, Object>> statusList = jdbcTemplate.queryForList(sql);
+        String sql1 = "select * from insurancetype order by id";
+        List<Map<String, Object>> insurancetypeList = jdbcTemplate.queryForList(sql1);
 
         model.addAttribute("policyId", index);
         model.addAttribute("managerId", managerId);
@@ -203,6 +209,7 @@ public class PolicyController {
         model.addAttribute("policyAttributesId", policyAttributesId);
 
         model.addAttribute("statusList", statusList);
+        model.addAttribute("insurancetypeList", insurancetypeList);
 
         return "update-policy";
     }

@@ -79,10 +79,13 @@
         <label for="policyStatusId" class="form-label">Policy Status ID:</label>
         <input type="text" class="form-control" id="policyStatusId" name="policyStatusId" required>
       </div>
-      <div class="col-md-6 mb-3">
-        <label for="insuranceTypeId" class="form-label">Insurance Type ID:</label>
-        <input type="text" class="form-control" id="insuranceTypeId" name="insuranceTypeId" required>
-      </div>
+      <<div class="col-md-6 mb-3">
+      <label for="insuranceTypeId" class="form-label">Insurance Type ID:</label>
+      <select class="form-control" id="insuranceTypeId" name="insuranceTypeId" required>
+        <option value="" disabled selected>Select Status</option>
+        <option th:each="status : ${insurancetypeList}" th:value="${status.id}" th:text="${status.type}" th:selected="${status.id == statusId}"></option>
+      </select>
+    </div>
     </div>
     <div class="row">
       <div class="col-md-6 mb-3">
