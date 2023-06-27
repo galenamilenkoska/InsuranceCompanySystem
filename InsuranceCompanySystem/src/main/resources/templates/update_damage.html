@@ -42,7 +42,7 @@
 
 <div class="container mt-4">
     <h1>Update Damage</h1>
-    <form th:action="@{/damages/update/${damageId}" method="post">
+    <form th:action="@{/damages/update/${damageId}}" method="post">
         <div class="form-group">
             <label for="policyId">Policy ID</label>
             <input type="number" class="form-control" id="policyId" name="policyId" th:value="${policyId}" required>

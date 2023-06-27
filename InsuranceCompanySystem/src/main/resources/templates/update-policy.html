@@ -71,8 +71,7 @@
     <div class="mb-3">
       <label for="policyStatusId" class="form-label">Status ID:</label>
       <select class="form-control" id="policyStatusId" name="policyStatusId" required>
-       <option value="" disabled selected>Select Status</option>
-        <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.status}" th:selected="${status.id == policyStatusId}"></option>
+          <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.status}" th:selected="${status.id == policyStatusId}"></option>
       </select>
     </div>
     <div class="mb-3">
@@ -86,8 +85,7 @@
     <div class="mb-3">
       <label for="insuranceTypeId" class="form-label">Insurance Type ID:</label>
       <select class="form-control" id="insuranceTypeId" name="insuranceTypeId" required>
-        <option value="" disabled selected>Select Status</option>
-        <option th:each="status : ${insurancetypeList}" th:value="${status.id}" th:text="${status.type}" th:selected="${status.id == statusId}"></option>
+        <option th:each="status : ${insurancetypeList}" th:value="${status.id}" th:text="${status.type}" th:selected="${status.id == insuranceTypeId}"></option>
       </select>
     </div>
     <div class="mb-3">
