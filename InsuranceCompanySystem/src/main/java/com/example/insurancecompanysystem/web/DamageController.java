@@ -67,11 +67,15 @@ public class DamageController {
                                @RequestParam("receivedFrom") String receivedFrom,
                                @RequestParam("paidToCustomer") String paidToCustomer,
                                @RequestParam("dateOfPayment") String dateOfPayment) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate parseddateOfPayment = LocalDate.parse(dateOfPayment, formatter);
+
         String sql = "CALL createdamage(?, ?, ?)";
         jdbcTemplate.update(sql, policyId, claimId, damageType);
-        int damageId = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM all_claims", Integer.class);
+        int damageId = jdbcTemplate.queryForObject("SELECT MAX(id) FROM damage", Integer.class);
+
         sql = "INSERT INTO damagepayment(damageId, status_of_payment, received_payment, received_from, paid_to_customer, date_of_payment) VALUES(?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, damageId, statusOfPayment, receivedPayment, receivedFrom, paidToCustomer, dateOfPayment);
+        jdbcTemplate.update(sql, damageId, statusOfPayment, receivedPayment, receivedFrom, paidToCustomer, parseddateOfPayment);
 
         return "redirect:/damages";
     }
