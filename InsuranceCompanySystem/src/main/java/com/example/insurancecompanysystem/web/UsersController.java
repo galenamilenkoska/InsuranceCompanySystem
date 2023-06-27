@@ -52,12 +52,25 @@ public class UsersController {
     }
 
     @GetMapping("manager-policies")
-    public String getManagerPolicies(@RequestParam("managerId") int managerId,
-                               Model model) {
-        String sql = "SELECT * FROM getpoliciespermanager(?)";
-        List<Map<String, Object>> policiesList = jdbcTemplate.queryForList(sql, managerId);
+    public String getManagerPolicies(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "10") int pageSize,
+                                     @RequestParam("managerId") int managerId, Model model) {
+        int offset = page * pageSize;
 
-        model.addAttribute("policiesList", policiesList);
+        String sql = "SELECT * FROM getpoliciespermanager(?) OFFSET ? LIMIT ?";
+        List<Map<String, Object>> viewData = jdbcTemplate.queryForList(sql, managerId, offset, pageSize);
+
+        model.addAttribute("viewData", viewData);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("managerId", managerId);
+
+//        int totalPolicies = viewData.size();
+        int totalPolicies = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM getpoliciespermanager("+managerId+")", Integer.class);
+
+        int totalPages = (int) Math.ceil((double) totalPolicies / pageSize);
+
+        model.addAttribute("totalPages", totalPages);
 
         return "manager-policies";
     }

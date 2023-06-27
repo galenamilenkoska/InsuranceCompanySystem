@@ -26,6 +26,9 @@
                 <a class="nav-link" href="/claims">Claims</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="/damages">Damages</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/stats/most-used-insurances">Most Purchased insurances</a>
             </li>
             <li class="nav-item">
@@ -73,7 +76,7 @@
                 <td th:text="${user['user_type']}"></td>
                 <td th:text="${user['type']}"></td>
                 <td>
-                    <a th:if="${user.user_type} == 3" th:href="@{/users/manager-policies(managerId=${user['id']})}">
+                    <a th:if="${user.user_type} == 3" th:href="@{/users/manager-policies(page=0, pageSize=10, managerId=${user['id']})}">
                         <button type="button" class="btn btn-info">Manage Policies</button>
                     </a>
                 </td>
